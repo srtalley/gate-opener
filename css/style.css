@@ -26,7 +26,7 @@ html,body {
 	margin-bottom: 10px;
 }
 
-.door-title h2 {
+.gate-title h2 {
 	margin: 15px 0;
 	text-shadow: 2px 2px 0px rgba(30, 30, 30, 0.8);
 }
@@ -61,7 +61,7 @@ html,body {
 	border-radius: 20px;
 
 }
-.door-opening{
+.gate-activating{
 	display:none;
 }
 div.activation-button button {
@@ -153,7 +153,7 @@ div.activation-button button.disabled-button:active {
 	.title h2 {
 		display: none;
 	}
-	.door-title h2 {
+	.gate-title h2 {
 		margin: 0;
 		font-size: 18px;
 	}
