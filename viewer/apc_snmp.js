@@ -1,6 +1,6 @@
 /*
 Name: apc_snmp.js
-Version: 1.0
+Version: 1.2.2
 Author: Steve Talley (steve@dustysun.com)
 Website: DustySun.com
 
@@ -27,7 +27,7 @@ jQuery(function($) {
       apc_units.push({
         'name': 'Barn1',
         'ip': '10.0.1.15',
-        'outlets': ['8'],
+        'outlets': ['5,8'],
         'outlet_names': ['Light Pole Cameras'],
       });
 
@@ -44,7 +44,10 @@ jQuery(function($) {
         apc_units.forEach(function(apc_units_item, apc_units_index, apc_units_array){
           apc_units_item['outlets'].forEach(function(apc_outlets_item, apc_outlets_index, apc_outlets_array){
 
-          $('#cameraPower ul').append($('<li><a href="#" id="apc' + apc_units_item['name'] + apc_outlets_item + '" class="apcSNMP" data-apc-ip="' + apc_units_item['ip'] + '" data-apc-outlet="' + apc_outlets_item + '" data-apc-name="' + apc_units_item['name'] + '"><span class="outlet-status"></span>' +  apc_units_item['outlet_names'][apc_outlets_index] +  '</a></li>'));
+            // deal with potential commas
+            apc_outlets_item_formatted = apc_outlets_item.replace(/,/g, '');
+
+          $('#cameraPower ul').append($('<li><a href="#" id="apc' + apc_units_item['name'] + apc_outlets_item_formatted + '" class="apcSNMP" data-apc-ip="' + apc_units_item['ip'] + '" data-apc-outlet="' + apc_outlets_item + '" data-apc-name="' + apc_units_item['name'] + '"><span class="outlet-status"></span>' +  apc_units_item['outlet_names'][apc_outlets_index] +  '</a></li>'));
           });
         });
 
@@ -66,15 +69,19 @@ jQuery(function($) {
           var apc_ip = $(this).attr('data-apc-ip');
           var apc_outlet = $(this).attr('data-apc-outlet');
 
-          ajaxURL = 'http://defiant.home/snmp.php?community=' + snmp_community + '&ip=' + apc_ip + '&outlet=' + apc_outlet + '&statusonly=true';
+          ajaxURL = 'http://fusion.home:8082/snmp-control/snmp.php?community=' + snmp_community + '&ip=' + apc_ip + '&outlet=' + apc_outlet + '&statusonly=true';
+          console.log(ajaxURL);
           $.ajax({
               dataType: "json",
               // data: data,
         			url: ajaxURL,
         			cache: false,
         			success: function(response){
-
-                var current_target = ('#apc' + apc_name + apc_outlet);
+// console.log(apc_outlet.replace(/,/g, ''));
+                apc_outlet_formatted = apc_outlet.replace(/,/g, '');
+                var current_target = ('#apc' + apc_name + apc_outlet_formatted);
+                // var new_current_target = $('li a[data-apc-name="' + apc_name + '"]');
+                // console.log(new_current_target);
                 var current_target_icon = $(current_target).find('.outlet-status');
                 if(response['data']['outlet_status'] == 'on'){
                   $(current_target).data('apc-outlet-status', 'on');
@@ -122,7 +129,8 @@ jQuery(function($) {
           var command_to_send = 3;
         }
 
-        ajaxURL = 'http://defiant.home/snmp.php?community=' + snmp_community + '&ip=' + apc_target_ip + '&outlet=' + apc_target_outlet + '&command=' + command_to_send + '&statusonly=false';
+        ajaxURL = 'http://fusion.home:8082/snmp.php?community=' + snmp_community + '&ip=' + apc_target_ip + '&outlet=' + apc_target_outlet + '&command=' + command_to_send + '&statusonly=false';
+        console.log(ajaxURL);
         $.ajax({
             dataType: "json",
             // data: data,
@@ -131,7 +139,7 @@ jQuery(function($) {
             success: function(response){
 
 
-              if(response['data']['outlet_status'] == command_to_send) {
+              if(response['data']['outlet_status'] == true) {
                 alert("Success. Please wait 30 seconds before turning it on or off again.");
               } else {
                 alert("Unable to do what you asked. :(");

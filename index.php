@@ -20,7 +20,6 @@
 		foreach( $gateArray as $gateItem ) {
 
 			if ( $gateItem['gateNumber'] == $gateTrigger ) {
-				error_log('reacehd');
 				shell_exec ('/usr/bin/gpio mode ' . $gateItem['gpioNumber'] . ' out');
 				shell_exec('/usr/bin/gpio write ' . $gateItem['gpioNumber'] . ' 0');
 				usleep(1000000);
@@ -42,38 +41,39 @@
 		<meta name="apple-mobile-web-app-title" content="Opener">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-		<link rel="apple-touch-icon" href="touch-icon-ipad.png?ver=2020.11.27" />
-		<link rel="apple-touch-icon" sizes="152x152" href="touch-icon-ipad.png?ver=2020.11.27" />
-		<link rel="apple-touch-icon" sizes="180x180" href="touch-icon-iphone-retina.pn?ver=2020.11.27" />
-		<link rel="apple-touch-icon" sizes="167x167" href="touch-icon-ipad-retina.png?ver=2020.11.27" />
+		<!-- <link rel="apple-touch-icon" href="touch-icon-ipad.png?ver=2020.11.29" /> -->
+		<link rel="apple-touch-icon" sizes="152x152" href="touch-icon-ipad.png?ver=2020.11.29" />
+		<link rel="apple-touch-icon" sizes="180x180" href="touch-icon-iphone-retina.png?ver=2020.11.29" />
+		<link rel="apple-touch-icon" sizes="167x167" href="touch-icon-ipad-retina.png?ver=2020.11.29" />
 
 		<link href='https://fonts.googleapis.com/css?family=Archivo+Narrow:400,700' rel='stylesheet' type='text/css'>
 
-		<link rel="stylesheet" href="css/style.css?ver=2018-04-05c" type="text/css">
+		<link rel="stylesheet" href="css/style.css?ver=2.0" type="text/css">
+		<link rel="manifest" href="manifest.json">
 
 		<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
 		<script type="text/javascript" src="js/script.js"></script>
 
 		<script type="text/javascript" src="viewer/jquery.md5.js"></script>
 		<script type="text/javascript" src="viewer/jquery.cookie.js"></script>
-		<script type="text/javascript" src="viewer/clear_view_cameras.js?ver=2018-04-05b"></script>
+		<script type="text/javascript" src="viewer/clear_view_cameras.js?ver=2.0"></script>
 
 	</head>
 	<body>
-		<div class="title">
-			<h2>Gate Control</h2>
-		</div>
+		<!-- <div class="title"> -->
+			<!-- <h2>Gate Control</h2> -->
+		<!-- </div> -->
 		<div class="controller-wrapper">
 			<div class="controller">
 				<div class="gate-title">
-		      <h2>Gate</h2>
+		      		<h2>Gate</h2>
 				</div>
 				<div class="activation-button">
 			    <button id="1"><span class="buttonText" id="gate1-buttonText">Activate</span><span id="gate1-activating" class="gate-activating">Wait...</span></button>
 				</div>
 			</div>
 		</div>
-		<div id="cameraViewportWrapper" data-blue_iris_server="http://sol.home" data-first_cam="DwyGate" data-scroll_to_top="false" data-resize_viewport="false" data-refresh_rate="500">
+		<div id="cameraViewportWrapper" data-blue_iris_server="http://sol.home" data-first_cam="DwyGate" data-scroll_to_top="false" data-resize_viewport="false" data-refresh_rate="400" data-quality="20">
 			<div id="cameraViewport">
 				<canvas id="cameraImg"></canvas>
 			</div>
@@ -88,7 +88,13 @@
 					<span>Speed</span>
 					<ul></ul>
 				</li>
+				<li id="camQuality" class="nav-heading">
+					<span>Quality</span>
+					<ul></ul>
+				</li>
 			</ul>
 		</div>
+		<div id="cameraViewerStatus"><p></p></div>
+		<div id="refresh"><button>Refresh</button></div>
 	</body>
 </html>

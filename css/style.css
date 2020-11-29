@@ -18,29 +18,31 @@ html,body {
 }
 
 .controller{
-	height: 300px;
+	margin: 20px 0;
+	min-height: 250px;
 	text-align:center;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
-	margin-bottom: 10px;
 }
 
 .gate-title h2 {
-	margin: 15px 0;
-	text-shadow: 2px 2px 0px rgba(30, 30, 30, 0.8);
+    margin: 0;
+    letter-spacing: 1px;
+    text-shadow: 2px 2px 0px rgb(30 30 30 / 52%);
+    text-transform: uppercase;
 }
 .activation-button {
-	margin-top: -15px;
+	margin-bottom: 20px;
 }
 .status-line {
 	height: 26px;
 	background-color: #000;
 	color: #c3c3c3;
-  margin: 0 auto;
-  border-radius: 10px;
-  /* box-shadow: inset 0 -7px 20px -7px #9a9695; */
-  width: 180px;
+	margin: 0 auto;
+	border-radius: 10px;
+	/* box-shadow: inset 0 -7px 20px -7px #9a9695; */
+	width: 180px;
 	display: flex;
   flex-direction: column;
   justify-content: center;
@@ -66,17 +68,18 @@ html,body {
 }
 div.activation-button button {
 	padding:0;
-  color: #fff;
-  background-color: #a21b1b;
-  border: none;
+	color: #fff;
+	background-color: #a21b1b;
+	border: none;
 	width: 160px;
 	height: 160px;
-  border-radius: 80px;
-  box-shadow: 4px 7px 1px #331515;
+	border-radius: 80px;
+	box-shadow: 2px 3px 9px 1px rgb(2 2 2 / 40%);
 	font-size: 36px;
 	text-shadow: 3px 2px 0px rgba(30, 30, 30, 0.8);
 	font-family: inherit;
 	text-decoration: none;
+	transition: all 0.4s ease-out;
 }
 
 div.activation-button button:hover {
@@ -89,9 +92,9 @@ div.activation-button button:focus{
 
 div.activation-button button:active, div.activation-button button.disabled-button,
 div.activation-button button.disabled-button:active {
-  background-color: #096509;
-  box-shadow: -1px -1px 0 3px #1e3811;
-  transform: translateX(4px) translateY(7px);
+	background-color: #096509;
+	box-shadow: -3px -1px 0px 3px rgb(30 56 17 / 75%);
+	transform: translateX(3px) translateY(3px);
 	text-shadow: none;
 }
 #cameraViewport {
@@ -113,6 +116,9 @@ div.activation-button button.disabled-button:active {
 #cameraSelection span {
 	padding-right: 10px;
 }
+#cameraSelection ul {
+	margin: 10px 0 0;
+}
 #cameraSelection ul li {
 	padding-right: 10px;
 	display: inline-block;
@@ -121,7 +127,7 @@ div.activation-button button.disabled-button:active {
 	padding-right:0;
 }
 #cameraSelection ul li.nav-heading {
-	display: inline-block;
+	display: block;
 }
 #cameraSelection ul li.nav-heading ul {
 	display: inline;
@@ -133,6 +139,32 @@ div.activation-button button.disabled-button:active {
 #cameraSelection ul li a:hover {
 	color: #fff;
 }
+#cameraSelection .selectedItem {
+	color: #45c4c4;
+}
+#cameraViewerStatus {
+	min-height: 24px;
+	text-align: center;
+}
+#refresh {
+    text-align: center;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    padding: 0 20px 30px;
+}
+#refresh button {
+	font-size: 28px;
+	color: #fff;
+	background-color: #14a1b6;
+    border: 0;
+    padding: 10px 20px;
+	border-radius: 5px;
+	transition: all 0.4s ease-out;
+}
+#refresh button:hover, #refresh button:focus, #refresh button:active {
+	background-color: #035d6b;
+}
 @media only screen and (max-width: 767px) {
 	.controller-wrapper {
 		flex-direction: row;
@@ -142,9 +174,9 @@ div.activation-button button.disabled-button:active {
 		margin-top: 10px;
 	}
 	.controller {
-    height: auto;
+    	min-height: auto;
 		width: 100%;
-    margin: 0 10px 10px;
+    	margin: 0 10px 10px;
 		padding: 10px;
 	}
 	.controller:last-child {
@@ -163,7 +195,7 @@ div.activation-button button.disabled-button:active {
 		padding: 2px 8px;
 	}
 	.activation-button {
-		margin: 10px 0 15px;
+		margin: 10px 0 0;
 	}
 	div.activation-button button {
 		min-width: 120px;
@@ -175,7 +207,7 @@ div.activation-button button.disabled-button:active {
 	}
 	#cameraImg,
 	#cameraImg.full-size-viewport {
-		max-width: 100%;
+		max-width: 94%;
 		border-radius:10px;
 	}
 	#cameraSelection {
@@ -187,7 +219,7 @@ div.activation-button button.disabled-button:active {
 		margin-bottom: 0;
 	}
 	#cameraSelection span {
-		display: none;
+		/* display: none; */
 	}
 	#cameraSelection ul li.nav-heading {
 		margin-top: 8px;

@@ -4,7 +4,6 @@ $(document).ready(function() {
 var Gate1Text;
 var Gate1ButtonTextTimeoutGlobal;
 
-
 	$('button').click(function(e) {
 
 		//Disable the button for 2 seconds to allow for our relay
@@ -37,9 +36,7 @@ var Gate1ButtonTextTimeoutGlobal;
 		//Set a timeout (which can be cleared) to set the button text back
 		if(gateElement == 1) {
 			Gate1ButtonTextTimeoutGlobal = setTimeout(ButtonRestore, 2000);
-		} else if (gateElement==2) {
-			Gate2ButtonTextTimeoutGlobal = setTimeout(ButtonRestore, 2000);
-		}
+		} 
 
 		function ButtonRestore() {
 			$('#gate' + gateElement + '-activating').hide();
@@ -57,4 +54,9 @@ var Gate1ButtonTextTimeoutGlobal;
 	function resizeViewportOnDesktop() {
 		$('#cameraImg').addClass('full-size-viewport');
 	}
+	//Handle the reload
+	$('#refresh button').on('click', function() {
+		console.log('Refresh button clicked');
+		location.reload();
+	});
 });
