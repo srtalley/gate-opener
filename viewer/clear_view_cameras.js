@@ -1,9 +1,9 @@
 /*
 Name: clear_view_cameras.js
-Version: 1.2.3
+Version: 1.2.4
 Author: Steve Talley (steve@dustysun.com)
 Website: DustySun.com
-Date: 2020-11-28
+Date: 2020-12-03
 
 Description: This is the main JavaScript file that loads the BlueIris
 cameras via Ajax calls.
@@ -32,35 +32,40 @@ var canvasWrapperTagGlobal = '#cameraViewportWrapper';
 var cameraViewerStatusGlobal = '#cameraViewerStatus';
 
 //set this to the http:// URL of the Blue Iris server if it's a different machine
-if(typeof( $(canvasWrapperTagGlobal).data('blue_iris_server') !== 'undefined')) {
+if(typeof( $(canvasWrapperTagGlobal).data('blue_iris_server')) !== 'undefined') {
 	var blueIrisServerGlobal = $(canvasWrapperTagGlobal).data('blue_iris_server');
 } else {
 	var blueIrisServerGlobal = 'http://localhost';
 }
-if(typeof( $(canvasWrapperTagGlobal).data('first_cam') !== 'undefined')) {
+if(typeof( $(canvasWrapperTagGlobal).data('first_cam')) !== 'undefined') {
 	var customFirstCamera = $(canvasWrapperTagGlobal).data('first_cam');
 } else {
 	var customFirstCamera = null;
 }
-if(typeof( $(canvasWrapperTagGlobal).data('scroll_to_top') !== 'undefined')) {
+if(typeof( $(canvasWrapperTagGlobal).data('scroll_to_top')) !== 'undefined') {
 	var scrollTopOnSwitch = $(canvasWrapperTagGlobal).data('scroll_to_top');
 } else {
 	var scrollTopOnSwitch = false;
 }
-if(typeof( $(canvasWrapperTagGlobal).data('resize_viewport') !== 'undefined')) {
+if(typeof( $(canvasWrapperTagGlobal).data('resize_viewport')) !== 'undefined') {
 	var allowResizeViewport = $(canvasWrapperTagGlobal).data('resize_viewport');
 } else {
 	var allowResizeViewport = true;
 }
-if(typeof( $(canvasWrapperTagGlobal).data('refresh_rate') !== 'undefined')) {
+if(typeof( $(canvasWrapperTagGlobal).data('refresh_rate')) !== 'undefined') {
 	var refreshRateGlobal = $(canvasWrapperTagGlobal).data('refresh_rate');
 } else {
 	var refreshRateGlobal = 500;
 }
-if(typeof( $(canvasWrapperTagGlobal).data('quality') !== 'undefined')) {
+if(typeof( $(canvasWrapperTagGlobal).data('quality')) !== 'undefined') {
 	var qualityRateGlobal = $(canvasWrapperTagGlobal).data('quality');
 } else {
 	var qualityRateGlobal = 80;
+}
+if(typeof( $(canvasWrapperTagGlobal).data('width')) !== 'undefined') {
+	var camWidthGlobal = $(canvasWrapperTagGlobal).data('width');
+} else {
+	var camWidthGlobal = 1920;
 }
 
 
@@ -74,8 +79,6 @@ var selectedGroupGlobal;
 var camArrayGlobal = [];
 var camGroupArrayGlobal = [];
 var currentCamArray;
-
-var currentSessionKey;
 
 //Global var for the setTimeout stream so that it can be stopped
 var refreshImageTimer;
@@ -117,9 +120,9 @@ cameraRefreshRatesGlobal.push(
 //Create an array for the camera quality levels
 var cameraQualityLevelsGlobal = [];
 cameraQualityLevelsGlobal.push(
-	{quality: 85, rateDesc: 'Best' },
-	{quality: 40, rateDesc: 'Good' },
-	{quality: 20, rateDesc: 'Low' },
+	{quality: 85, width: 1920, rateDesc: 'Best' },
+	{quality: 40, width: 800, rateDesc: 'Good' },
+	{quality: 20, width: 640, rateDesc: 'Low' },
 );
 
 /* ==============================================================
@@ -275,6 +278,9 @@ function ClearViewCamerasHandler( )
 			//Assign the quality to a cookie
 			setCookieQuality( qualityRateGlobal );
 			
+			//Assign the width to a cookie
+			setCookieWidth( camWidthGlobal );
+
 			//Get a listing of the cameras
 			var camListPopulate = GetCamList();
 
@@ -346,7 +352,6 @@ function ClearViewCamerasHandler( )
 //Set the session value in a cookie
 function setCookieSession( setSessionValue )
 {
-	currentSessionKey = setSessionValue.session;
 	$.cookie( 'session', setSessionValue.session, { expires: 7, path: '/' } );
 } //end function setCookieSession
 
@@ -364,7 +369,7 @@ function setCookieRefreshRate( setRefreshValue )
 } //end function setCookieRefreshRate
 
 //Get the session from a cookie previously set
-function getCookieRefreshRate( getRefreshValue )
+function getCookieRefreshRate()
 {
 	return $.cookie( 'refresh_rate' );
 } //end function getCookieRefreshRate
@@ -376,11 +381,22 @@ function setCookieQuality( setQualityValue )
 } //end function setCookieQuality
 
 //Get the session from a cookie previously set
-function getCookieQuality( getQualityValue )
+function getCookieQuality()
 {
 	return $.cookie( 'quality' );
 } //end function getCookieQuality
 
+//Set the width in a cookie
+function setCookieWidth( setWidthValue )
+{
+	$.cookie( 'width', setWidthValue, { expires: 7, path: '/' } );
+} //end function setCookieWidth
+
+//Get the session from a cookie previously set
+function getCookieWidth()
+{
+	return $.cookie( 'width' );
+} //end function getCookieWidth
 /* ===================================================================================
 		JSON GET AND SET FUNCTIONS
    =================================================================================== */
@@ -669,7 +685,7 @@ function PrepareCameraStream( sclCamName, sclImgElement, sclCameraArray )
 } //end function PrepareCameraStream
 
 //Call the actual setTimeout function to set the image stream
-function BeginCameraStream( cameraServer, cameraSelection, displayRefreshMS, bcsCameraArray, bcsImageElement, camQuality )
+function BeginCameraStream( cameraServer, cameraSelection, displayRefreshMS, bcsCameraArray, bcsImageElement, camQuality, camWidth )
 {
 	if(typeof bcsCameraArray == "undefined" ) bcsCameraArray = camArrayGlobal;
 	if(typeof bcsImageElement == "undefined" ) bcsImageElement = cameraImgTagGlobal;
@@ -680,11 +696,16 @@ function BeginCameraStream( cameraServer, cameraSelection, displayRefreshMS, bcs
 		displayRefreshMS = getCookieRefreshRate();
 	}
 
-
-	//Check if we were passed a MS argument. If not, use the cookie value
+	//Check if we were passed a quality argument. If not, use the cookie value
 	if( typeof camQuality === 'undefined' )
 	{
 		camQuality = getCookieQuality();
+	}
+
+	//Check if we were passed a width argument. If not, use the cookie value
+	if( typeof camWidth === 'undefined' )
+	{
+		camWidth = getCookieWidth();
 	}
 
   //do the actual drawing
@@ -703,7 +724,7 @@ function BeginCameraStream( cameraServer, cameraSelection, displayRefreshMS, bcs
 				updateCameraPromise = UpdateCamScreen();
 			}, 500);
 	  	});
-		currentCamImage.src = blueIrisServerGlobal + "/image/" + selectedCameraGlobal  + '?time=' + Math.random() + '&session=' + currentSessionKey + '&stream=0&q=' + camQuality;
+		currentCamImage.src = blueIrisServerGlobal + "/image/" + selectedCameraGlobal  + '?time=' + Math.random() + '&q=' + camQuality + '&w=' + camWidth;
 
 		currentCamImage.onload = function() {
 			cameraImageContext.drawImage(this, 0,0, selectedCameraWidthGlobal, selectedCameraHeightGlobal);
@@ -754,12 +775,15 @@ function ChangeCameraRefreshRate( desiredMS )
 }//end function ChangeCameraRefreshRate
 
 //Change the quality. Relies on a global var for the camera selection
-function ChangeCameraQuality( desiredQuality )
+function ChangeCameraQuality( desiredQuality, desiredWidth )
 {
 	currentCamera = selectedCameraGlobal;
 
 	//Set the desired quality in the cookie
 	setCookieQuality( desiredQuality );
+
+	// Set the desured width in the cookie
+	setCookieWidth( desiredWidth );
 
 	PrepareCameraStream(currentCamera);
 
@@ -867,9 +891,9 @@ function CreateCameraLinks( cclCameraServer, cclCameraArray, cclCameraGroupArray
 	{
 		if( getCookieQuality() == cameraQualityLevelsGlobal[i].quality )
 		{
-			$(cameraQualityTagLinks + ' ul').append($('<li><a href="#" class="selectedItem cameraQualityLink" quality="' + cameraQualityLevelsGlobal[i].quality + '">' + cameraQualityLevelsGlobal[i].rateDesc + '</a></li>'));
+			$(cameraQualityTagLinks + ' ul').append($('<li><a href="#" class="selectedItem cameraQualityLink" quality="' + cameraQualityLevelsGlobal[i].quality + '" width="' + cameraQualityLevelsGlobal[i].width + '">' + cameraQualityLevelsGlobal[i].rateDesc + '</a></li>'));
 		} else {
-			$(cameraQualityTagLinks + ' ul').append($('<li><a href="#" class="cameraQualityLink" quality="' + cameraQualityLevelsGlobal[i].quality + '">' + cameraQualityLevelsGlobal[i].rateDesc + '</a></li>'));
+			$(cameraQualityTagLinks + ' ul').append($('<li><a href="#" class="cameraQualityLink" quality="' + cameraQualityLevelsGlobal[i].quality + '" width="' + cameraQualityLevelsGlobal[i].width + '">' + cameraQualityLevelsGlobal[i].rateDesc + '</a></li>'));
 		}//end if(getRefreshValue() == cclRefreshRates[i].rateMS )
 
 	} //end for( var i=0; i < cclRefreshRates.length; i++ )
@@ -889,7 +913,7 @@ function CreateCameraLinks( cclCameraServer, cclCameraArray, cclCameraGroupArray
 	//Add a click event for these newly created links
 	$('a.cameraQualityLink').click( function() {
 		//Get the rate from the anchor tag of the clicked link
-		ChangeCameraQuality( $(this).attr("quality") );
+		ChangeCameraQuality( $(this).attr("quality"), $(this).attr("width") );
 	}); //end $('a.cameraRefreshLink').click( function()
 
 } //end function CreateCameraLinks

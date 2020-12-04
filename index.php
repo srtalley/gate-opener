@@ -56,7 +56,7 @@
 
 		<script type="text/javascript" src="viewer/jquery.md5.js"></script>
 		<script type="text/javascript" src="viewer/jquery.cookie.js"></script>
-		<script type="text/javascript" src="viewer/clear_view_cameras.js?ver=2.0"></script>
+		<script type="text/javascript" src="viewer/clear_view_cameras.js?ver=2020.12.03"></script>
 
 	</head>
 	<body>
@@ -73,7 +73,7 @@
 				</div>
 			</div>
 		</div>
-		<div id="cameraViewportWrapper" data-blue_iris_server="http://sol.home" data-first_cam="DwyGate" data-scroll_to_top="false" data-resize_viewport="false" data-refresh_rate="400" data-quality="20">
+		<div id="cameraViewportWrapper" data-blue_iris_server="http://sol.home" data-first_cam="DwyGate" data-scroll_to_top="false" data-resize_viewport="false" data-refresh_rate="300" data-quality="20" data-width="600">
 			<div id="cameraViewport">
 				<canvas id="cameraImg"></canvas>
 			</div>
