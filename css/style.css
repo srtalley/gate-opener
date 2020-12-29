@@ -100,77 +100,16 @@ div.activation-button button.disabled-button:active {
     text-shadow: none;
 }
 
-#cameraViewport {
-    text-align: center;
-}
-
-#cameraImg {
-    max-width: 600px;
-    border-radius: 20px;
-}
-
-#cameraImg.full-size-viewport {
-    max-width: 90%;
-}
-
-#showCameraOptions {
-    text-align: center;
-    margin-top: 5px;
-}
-
-#cameraSelection {
-    text-align: center;
-    display: none;
-}
-
-#cameraSelection ul {
-    padding: 0;
-}
-
-#cameraSelection span {
-    padding-right: 10px;
-}
-
-#cameraSelection ul {
-    margin: 10px 0 0;
-}
-
-#cameraSelection ul li {
-    padding-right: 10px;
-    display: inline-block;
-}
-
-#cameraSelection ul li:last-of-type {
-    padding-right: 0;
-}
-
-#cameraSelection ul li.nav-heading {
-    display: block;
-}
-
-#cameraSelection ul li.nav-heading ul {
-    display: inline;
-}
-
-#cameraSelection ul li a {
-    text-decoration: none;
-    color: #a2a2a2;
-}
-
-#cameraSelection ul li a:hover {
-    color: #fff;
-}
-
-#cameraSelection .selectedItem {
-    color: #45c4c4;
-}
-
-#cameraViewerStatus {
-    text-align: center;
-    position: absolute;
-    top: 300px;
+#ui3 {
+    max-width: 640px;
     width: 100%;
-    font-size: 24px;
+    margin: 0 auto;
+}
+
+#ui3 iframe {
+    width: 100%;
+    height: 360px;
+    border: none !important;
 }
 
 #refresh {
@@ -198,7 +137,7 @@ div.activation-button button.disabled-button:active {
 }
 
 div#solarStatus {
-    max-width: 640px;
+    max-width: 676px;
     width: 100%;
     margin: 0 auto;
 }
@@ -211,9 +150,6 @@ div#solarStatus iframe {
 }
 
 @media only screen and (max-width: 767px) {
-    #cameraViewerStatus {
-        top: 200px;
-    }
     .controller-wrapper {
         flex-direction: row;
         width: 100%;
@@ -253,24 +189,5 @@ div#solarStatus iframe {
         height: auto;
         border-radius: 18px;
         font-size: 22px;
-    }
-    #cameraImg,
-    #cameraImg.full-size-viewport {
-        max-width: 94%;
-        border-radius: 10px;
-    }
-    #cameraSelection {
-        padding-left: 4px;
-        padding-right: 4px;
-    }
-    #cameraSelection ul {
-        margin-top: 0;
-        margin-bottom: 0;
-    }
-    #cameraSelection span {
-        /* display: none; */
-    }
-    #cameraSelection ul li.nav-heading {
-        margin-top: 8px;
     }
 }
