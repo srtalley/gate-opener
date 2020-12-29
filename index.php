@@ -48,7 +48,7 @@
 
 		<link href='https://fonts.googleapis.com/css?family=Archivo+Narrow:400,700' rel='stylesheet' type='text/css'>
 
-		<link rel="stylesheet" href="css/style.css?ver=2.0" type="text/css">
+		<link rel="stylesheet" href="css/style.css?ver=2020.12.28" type="text/css">
 		<link rel="manifest" href="manifest.json">
 
 		<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
@@ -56,7 +56,7 @@
 
 		<script type="text/javascript" src="viewer/jquery.md5.js"></script>
 		<script type="text/javascript" src="viewer/jquery.cookie.js"></script>
-		<script type="text/javascript" src="viewer/clear_view_cameras.js?ver=2020.12.03"></script>
+		<script type="text/javascript" src="viewer/clear_view_cameras.js?ver=2020.12.28"></script>
 
 	</head>
 	<body>
@@ -65,11 +65,11 @@
 		<!-- </div> -->
 		<div class="controller-wrapper">
 			<div class="controller">
-				<div class="gate-title">
-		      		<h2>Gate</h2>
-				</div>
+				<!-- <div class="gate-title"> -->
+		      		<!-- <h2>Gate</h2> -->
+				<!-- </div> -->
 				<div class="activation-button">
-			    <button id="1"><span class="buttonText" id="gate1-buttonText">Activate</span><span id="gate1-activating" class="gate-activating">Wait...</span></button>
+			    <button id="1"><span class="buttonText" id="gate1-buttonText">Activate Gate</span><span id="gate1-activating" class="gate-activating">Wait...</span></button>
 				</div>
 			</div>
 		</div>
@@ -78,6 +78,7 @@
 				<canvas id="cameraImg"></canvas>
 			</div>
 		</div>
+		<div id="showCameraOptions">Camera Options</div>
 		<div id="cameraSelection">
 			<ul class="navigation">
 				<li id="cameraLinks" class="nav-heading">
@@ -95,6 +96,8 @@
 			</ul>
 		</div>
 		<div id="cameraViewerStatus"><p></p></div>
+		<div id="solarStatus"><iframe src="http://mule.home:3000/d/-eq_QUmRk/mule-solar-summary?orgId=1&refresh=5s&var-job=node&var-name=mule&var-node=localhost&var-port=9100&from=now-24h&to=now&kiosk"></iframe></div>
 		<div id="refresh"><button>Refresh</button></div>
+
 	</body>
 </html>

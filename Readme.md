@@ -1,6 +1,9 @@
 This application activates the MightyMule gate control on the RaspberryPi computer located in the control box.
 
 ## Versions
+### v2020.12.28
+* Revised the look and added the Grafana solar dashboard stats.
+
 ### v2020.12.03 
 * Included v1.2.4 of the viewer script that allows setting a frame width to further reduce bandwidth usage.
 * Set the defaults to quality 20, refresh rate 300 and width 600px.
