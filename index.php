@@ -48,7 +48,7 @@
 
 		<link href='https://fonts.googleapis.com/css?family=Archivo+Narrow:400,700' rel='stylesheet' type='text/css'>
 
-		<link rel="stylesheet" href="css/style.css?ver=2020.12.28" type="text/css">
+		<link rel="stylesheet" href="css/style.css?ver=2020.12.28b" type="text/css">
 		<link rel="manifest" href="manifest.json">
 
 		<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>

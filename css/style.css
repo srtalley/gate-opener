@@ -150,6 +150,9 @@ div#solarStatus iframe {
 }
 
 @media only screen and (max-width: 767px) {
+    #ui3 iframe {
+        height: 56vw;
+    }
     .controller-wrapper {
         flex-direction: row;
         width: 100%;
