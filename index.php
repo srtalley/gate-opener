@@ -1,6 +1,6 @@
 <?php
 	
-	//v1.0
+	//v1.1
 
 	error_reporting(E_ALL);
 	//Create an array for our gate values
@@ -21,9 +21,9 @@
 
 			if ( $gateItem['gateNumber'] == $gateTrigger ) {
 				shell_exec ('/usr/bin/gpio mode ' . $gateItem['gpioNumber'] . ' out');
-				shell_exec('/usr/bin/gpio write ' . $gateItem['gpioNumber'] . ' 0');
-				usleep(1000000);
 				shell_exec('/usr/bin/gpio write ' . $gateItem['gpioNumber'] . ' 1');
+				usleep(1000000);
+				shell_exec('/usr/bin/gpio write ' . $gateItem['gpioNumber'] . ' 0');
 			} //end if 
 
 		} //end	foreach
@@ -31,7 +31,7 @@
 
 ?>
 <!DOCTYPE html>
-<html>
+<html manifest="cache.manifest">
 	<head>
 		<title>Gate Opener</title>
 		<meta http-equiv="cache-control" content="max-age=0" />
@@ -48,7 +48,7 @@
 
 		<link href='https://fonts.googleapis.com/css?family=Archivo+Narrow:400,700' rel='stylesheet' type='text/css'>
 
-		<link rel="stylesheet" href="css/style.css?ver=2020.12.28b" type="text/css">
+		<link rel="stylesheet" href="css/style.css?ver=2023.03.20" type="text/css">
 		<link rel="manifest" href="manifest.json">
 
 		<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
@@ -68,8 +68,10 @@
 				</div>
 			</div>
 		</div>
-		<div id="ui3"><iframe src="http://sol.home/ui3.htm?maximize=1&cam=DwyGate"></iframe></div>
-		<div id="solarStatus"><iframe src="http://mule.home:3000/d/-eq_QUmRk/mule-solar-summary?orgId=1&refresh=5s&var-job=node&var-name=mule&var-node=localhost&var-port=9100&from=now-24h&to=now&kiosk"></iframe></div>
+		<div class="ui3"><iframe src="http://sol.home/ui3.htm?maximize=1&cam=GarageSouth"></iframe></div>
+		<div class="ui3"><iframe src="http://sol.home/ui3.htm?maximize=1&cam=gatecam2"></iframe></div>
+		<div class="ui3"><iframe src="http://sol.home/ui3.htm?maximize=1&cam=DwySouth"></iframe></div>
+		<!-- <div id="solarStatus"><iframe src="http://mule.home:3000/d/-eq_QUmRk/mule-solar-summary?orgId=1&refresh=5s&var-job=node&var-name=mule&var-node=localhost&var-port=9100&from=now-24h&to=now&kiosk"></iframe></div> -->
 		<div id="refresh"><button>Refresh</button></div>
 
 	</body>

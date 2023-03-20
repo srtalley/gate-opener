@@ -100,13 +100,13 @@ div.activation-button button.disabled-button:active {
     text-shadow: none;
 }
 
-#ui3 {
+.ui3 {
     max-width: 640px;
     width: 100%;
     margin: 0 auto;
 }
 
-#ui3 iframe {
+.ui3 iframe {
     width: 100%;
     height: 360px;
     border: none !important;
@@ -150,7 +150,7 @@ div#solarStatus iframe {
 }
 
 @media only screen and (max-width: 767px) {
-    #ui3 iframe {
+    .ui3 iframe {
         height: 56vw;
     }
     .controller-wrapper {
