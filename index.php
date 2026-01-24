@@ -1,32 +1,32 @@
 <?php
-	
-	//v1.1
 
-	error_reporting(E_ALL);
-	//Create an array for our gate values
-	$gateArray = [];
+//v1.2 - Added schedule management
 
-	//Set the GPIO pin number to the number of the gate you want to control
-	$gateArray[] = array(
-		"gateNumber" => 1,
-		"gpioNumber" => 9
-	);//end $gateArray
+error_reporting(E_ALL);
+//Create an array for our gate values
+$gateArray = [];
+
+//Set the GPIO pin number to the number of the gate you want to control
+$gateArray[] = array(
+    "gateNumber" => 1,
+    "gpioNumber" => 9
+);//end $gateArray
 
 
-	if (isset($_GET['trigger']) && $_GET['trigger'] >= 1 && $_GET['trigger'] <= 10 ) {
-	    $gateTrigger = $_GET['trigger'];
+if (isset($_GET['trigger']) && $_GET['trigger'] >= 1 && $_GET['trigger'] <= 10) {
+    $gateTrigger = $_GET['trigger'];
 
-	    foreach ( $gateArray as $gateItem ) {
-	        if ( $gateItem['gateNumber'] == $gateTrigger ) {
-	            shell_exec ('/usr/bin/gpio mode ' . $gateItem['gpioNumber'] . ' out');
-	            shell_exec('/usr/bin/gpio write ' . $gateItem['gpioNumber'] . ' 1');
-	            usleep(1000000);
-	            shell_exec('/usr/bin/gpio write ' . $gateItem['gpioNumber'] . ' 0');
-	        } //end if
-	    } //end	foreach
-	} //end if
+    foreach ($gateArray as $gateItem) {
+        if ($gateItem['gateNumber'] == $gateTrigger) {
+            shell_exec('/usr/bin/gpio mode ' . $gateItem['gpioNumber'] . ' out');
+            shell_exec('/usr/bin/gpio write ' . $gateItem['gpioNumber'] . ' 1');
+            usleep(1000000);
+            shell_exec('/usr/bin/gpio write ' . $gateItem['gpioNumber'] . ' 0');
+        } //end if
+    } //end	foreach
+} //end if
 
-	?>
+?>
 <!DOCTYPE html>
 <html manifest="cache.manifest">
 	<head>
@@ -45,30 +45,45 @@
 
 		<link href='https://fonts.googleapis.com/css?family=Archivo+Narrow:400,700' rel='stylesheet' type='text/css'>
 
-		<link rel="stylesheet" href="css/style.css?ver=2023.03.20" type="text/css">
+		<link rel="stylesheet" href="css/style.css?ver=2026.01.23" type="text/css">
 		<link rel="manifest" href="manifest.json">
 
 		<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
-		<script type="text/javascript" src="js/script.js?ver=2020.12.28"></script>
+		<script type="text/javascript" src="js/script.js?ver=2026.01.23"></script>
 	</head>
 	<body>
-		<!-- <div class="title"> -->
-			<!-- <h2>Gate Control</h2> -->
-		<!-- </div> -->
 		<div class="controller-wrapper">
 			<div class="controller">
-				<!-- <div class="gate-title"> -->
-		      		<!-- <h2>Gate</h2> -->
-				<!-- </div> -->
 				<div class="activation-button">
 			    <button id="1"><span class="buttonText" id="gate1-buttonText">Activate Gate</span><span id="gate1-activating" class="gate-activating">Wait...</span></button>
 				</div>
 			</div>
 		</div>
+
+		<!-- Schedule Management Section -->
+		<div id="scheduleSection">
+			<div id="scheduleToggle">
+				<span id="scheduleToggleIcon">▶</span> Schedule
+			</div>
+			<div id="schedulePanel">
+				<div class="schedule-row">
+					<label class="toggle-switch">
+						<input type="checkbox" id="scheduleEnabled">
+						<span class="toggle-slider"></span>
+					</label>
+					<span class="schedule-label">Auto-open at</span>
+					<input type="time" id="scheduleTime" value="07:30">
+				</div>
+				<div class="schedule-actions">
+					<button id="saveSchedule">Save</button>
+					<span id="scheduleStatus"></span>
+				</div>
+			</div>
+		</div>
+
 		<div class="ui3"><iframe src="http://sol.home/ui3.htm?maximize=1&cam=GarageSouth"></iframe></div>
 		<div class="ui3"><iframe src="http://sol.home/ui3.htm?maximize=1&cam=DwyCurve2"></iframe></div>
 		<div class="ui3"><iframe src="http://sol.home/ui3.htm?maximize=1&cam=DwySouth"></iframe></div>
-		<!-- <div id="solarStatus"><iframe src="http://mule.home:3000/d/-eq_QUmRk/mule-solar-summary?orgId=1&refresh=5s&var-job=node&var-name=mule&var-node=localhost&var-port=9100&from=now-24h&to=now&kiosk"></iframe></div> -->
 		<div id="refresh"><button>Refresh</button></div>
 
 	</body>
