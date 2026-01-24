@@ -13,23 +13,20 @@
 	);//end $gateArray
 
 
-	if(isset($_GET['trigger']) && $_GET['trigger'] >= 1 && $_GET['trigger'] <= 10 ) {
+	if (isset($_GET['trigger']) && $_GET['trigger'] >= 1 && $_GET['trigger'] <= 10 ) {
+	    $gateTrigger = $_GET['trigger'];
 
-		$gateTrigger = $_GET['trigger'];
-
-		foreach( $gateArray as $gateItem ) {
-
-			if ( $gateItem['gateNumber'] == $gateTrigger ) {
-				shell_exec ('/usr/bin/gpio mode ' . $gateItem['gpioNumber'] . ' out');
-				shell_exec('/usr/bin/gpio write ' . $gateItem['gpioNumber'] . ' 1');
-				usleep(1000000);
-				shell_exec('/usr/bin/gpio write ' . $gateItem['gpioNumber'] . ' 0');
-			} //end if 
-
-		} //end	foreach
+	    foreach ( $gateArray as $gateItem ) {
+	        if ( $gateItem['gateNumber'] == $gateTrigger ) {
+	            shell_exec ('/usr/bin/gpio mode ' . $gateItem['gpioNumber'] . ' out');
+	            shell_exec('/usr/bin/gpio write ' . $gateItem['gpioNumber'] . ' 1');
+	            usleep(1000000);
+	            shell_exec('/usr/bin/gpio write ' . $gateItem['gpioNumber'] . ' 0');
+	        } //end if
+	    } //end	foreach
 	} //end if
 
-?>
+	?>
 <!DOCTYPE html>
 <html manifest="cache.manifest">
 	<head>
@@ -69,7 +66,7 @@
 			</div>
 		</div>
 		<div class="ui3"><iframe src="http://sol.home/ui3.htm?maximize=1&cam=GarageSouth"></iframe></div>
-		<div class="ui3"><iframe src="http://sol.home/ui3.htm?maximize=1&cam=gatecam2"></iframe></div>
+		<div class="ui3"><iframe src="http://sol.home/ui3.htm?maximize=1&cam=DwyCurve2"></iframe></div>
 		<div class="ui3"><iframe src="http://sol.home/ui3.htm?maximize=1&cam=DwySouth"></iframe></div>
 		<!-- <div id="solarStatus"><iframe src="http://mule.home:3000/d/-eq_QUmRk/mule-solar-summary?orgId=1&refresh=5s&var-job=node&var-name=mule&var-node=localhost&var-port=9100&from=now-24h&to=now&kiosk"></iframe></div> -->
 		<div id="refresh"><button>Refresh</button></div>
