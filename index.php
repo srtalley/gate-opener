@@ -1,8 +1,14 @@
 <?php
 
+//v1.3 - 2026.10.25 - Triggers need the X-Control-Token header (control_auth.php)
 //v1.2 - Added schedule management
 
 error_reporting(E_ALL);
+require __DIR__ . '/control_auth.php';
+
+if (isset($_GET['trigger']) && !control_allowed()) {
+    deny_control();
+}
 //Create an array for our gate values
 $gateArray = [];
 
@@ -49,7 +55,8 @@ if (isset($_GET['trigger']) && $_GET['trigger'] >= 1 && $_GET['trigger'] <= 10) 
 		<link rel="manifest" href="manifest.json">
 
 		<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
-		<script type="text/javascript" src="js/script.js?ver=2026.01.23"></script>
+		<script type="text/javascript">window.CONTROL_TOKEN = <?php echo json_encode(control_token()); ?>;</script>
+		<script type="text/javascript" src="js/script.js?ver=2026.10.25"></script>
 	</head>
 	<body>
 		<div class="controller-wrapper">

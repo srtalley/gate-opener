@@ -1,3 +1,4 @@
+//v2026.10.25 - Send X-Control-Token with triggers and schedule saves
 //v2026.01.23 - Added schedule management
 $(document).ready(function() {
 
@@ -26,7 +27,7 @@ $(document).ready(function() {
         }
 
         //Call the page with the _GET element to trigger the gate change
-        $.get("/?trigger=" + gateElement);
+        $.ajax({ url: '/?trigger=' + gateElement, headers: { 'X-Control-Token': window.CONTROL_TOKEN } });
 
         //Set the opening or closing text when the button is clicked.
         $('#gate' + gateElement + '-buttonText').hide();
@@ -111,6 +112,7 @@ $(document).ready(function() {
         $.ajax({
             url: '/crontab-api.php',
             method: 'POST',
+            headers: { 'X-Control-Token': window.CONTROL_TOKEN },
             contentType: 'application/json',
             data: JSON.stringify({
                 enabled: enabled,

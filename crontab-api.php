@@ -26,9 +26,9 @@
  */
 
 header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type');
+// No CORS headers: only this Pi's page and the house control panel (server
+// side) call this, so other sites get no access.
+require __DIR__ . '/control_auth.php';
 
 // Handle preflight
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
@@ -159,6 +159,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     ]);
 
 } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!control_allowed()) {
+        http_response_code(403);
+        echo json_encode(['success' => false, 'error' => 'Missing or wrong control token.']);
+        exit;
+    }
+
     $input = json_decode(file_get_contents('php://input'), true);
 
     if (!isset($input['hour']) || !isset($input['minute'])) {
