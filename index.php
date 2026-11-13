@@ -1,5 +1,6 @@
 <?php
 
+//v1.4 - 2026.11.13 - Shows deliveries ticked on the house panel; Activate warns first
 //v1.3 - 2026.10.25 - Triggers need the X-Control-Token header (control_auth.php)
 //v1.2 - Added schedule management
 
@@ -51,14 +52,20 @@ if (isset($_GET['trigger']) && $_GET['trigger'] >= 1 && $_GET['trigger'] <= 10) 
 
 		<link href='https://fonts.googleapis.com/css?family=Archivo+Narrow:400,700' rel='stylesheet' type='text/css'>
 
-		<link rel="stylesheet" href="css/style.css?ver=2026.01.23" type="text/css">
+		<link rel="stylesheet" href="css/style.css?ver=2026.11.13" type="text/css">
 		<link rel="manifest" href="manifest.json">
 
 		<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
 		<script type="text/javascript">window.CONTROL_TOKEN = <?php echo json_encode(control_token()); ?>;</script>
-		<script type="text/javascript" src="js/script.js?ver=2026.10.25"></script>
+		<script type="text/javascript" src="js/script.js?ver=2026.11.13"></script>
 	</head>
 	<body>
+		<div id="deliveries" hidden>
+			<div class="deliveries-title">Delivery expected today &middot; leave the gate open</div>
+			<ul id="deliveriesList"></ul>
+			<div id="deliveriesArmed">Tap the button again to activate the gate anyway.</div>
+			<a class="deliveries-link" href="https://controlpanel.relay.dustysun.com/">Change on the house panel</a>
+		</div>
 		<div class="controller-wrapper">
 			<div class="controller">
 				<div class="activation-button">

@@ -1,3 +1,4 @@
+/* v2026.11.13 - Deliveries banner and armed button */
 /* v2026.01.23 - Added schedule management styles */
 
 * {
@@ -96,6 +97,63 @@ div.activation-button button.disabled-button:active {
     box-shadow: -3px -1px 0px 3px rgb(30 56 17 / 75%);
     transform: translateX(3px) translateY(3px);
     text-shadow: none;
+}
+
+/* Deliveries (from the house control panel) */
+#deliveries {
+    max-width: 640px;
+    margin: 16px auto 0;
+    padding: 14px 16px;
+    border-radius: 10px;
+    background-color: #2a200c;
+    border: 1px solid #7a5a1e;
+    color: #ffd27a;
+    font-size: 18px;
+}
+
+#deliveries[hidden],
+#deliveriesArmed {
+    display: none;
+}
+
+#deliveries.armed {
+    background-color: #4a1f1b;
+    border-color: #ff7b70;
+    color: #ffd9d5;
+}
+
+#deliveries.armed #deliveriesArmed {
+    display: block;
+    margin-top: 8px;
+    font-weight: 700;
+}
+
+.deliveries-title {
+    font-weight: 700;
+}
+
+#deliveriesList {
+    margin: 8px 0 0;
+    padding-left: 22px;
+}
+
+#deliveriesList li {
+    margin: 2px 0;
+}
+
+.deliveries-link {
+    display: inline-block;
+    margin-top: 8px;
+    color: #7fd8e6;
+    font-size: 15px;
+}
+
+div.activation-button button.armed {
+    background-color: #c46a00;
+}
+
+div.activation-button button.armed:hover {
+    background-color: #d97800;
 }
 
 /* Schedule Section Styles */
@@ -357,6 +415,11 @@ div#solarStatus iframe {
         font-size: 22px;
     }
     
+    #deliveries {
+        margin: 10px 3% 0;
+        font-size: 16px;
+    }
+
     /* Schedule mobile adjustments */
     #scheduleSection {
         padding: 0 10px;

@@ -8,6 +8,8 @@ This application activates the MightyMule gate control on the RaspberryPi comput
 - Scheduled automatic gate opening (configurable via web UI)
 - Blue Iris camera feeds via iframe
 - Mobile-friendly PWA with home screen support
+- Shows deliveries people ticked on the house control panel; while any are
+  expected, Activate takes a second tap
 
 ## File Structure
 
@@ -15,6 +17,7 @@ This application activates the MightyMule gate control on the RaspberryPi comput
 /var/www/html/  (or wherever Apache serves from)
 ├── index.php           # Main web interface
 ├── crontab-api.php     # Schedule management API
+├── deliveries.php      # Today's expected deliveries, read from the house panel
 ├── css/
 │   └── style.css
 ├── js/
@@ -197,6 +200,15 @@ If prompted for password, the visudo entry is missing or incorrect.
    ```
 
 ## Versions
+
+### v2026.11.13
+* Shows "Delivery expected today" when anyone has ticked a delivery on the house
+  control panel (https://controlpanel.relay.dustysun.com). While one is
+  expected, the first tap on Activate only warns, and a second tap within 4 s
+  activates the gate.
+* `deliveries.php` asks the panel server side (`http://10.0.1.84:8095`), sending
+  this Pi's control token. The panel accepts that token for this read only.
+  If the panel is down, nothing is shown and the button works as before.
 
 ### v2026.01.23
 * Added web-based schedule management for automatic gate opening

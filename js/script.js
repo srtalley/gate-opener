@@ -1,3 +1,4 @@
+//v2026.11.13 - Show deliveries from the house panel; Activate takes a second tap while any are expected
 //v2026.10.25 - Send X-Control-Token with triggers and schedule saves
 //v2026.01.23 - Added schedule management
 $(document).ready(function() {
@@ -12,6 +13,13 @@ $(document).ready(function() {
     
     // Only handle gate buttons, not schedule/refresh buttons
     $('div.activation-button button').click(function(e) {
+
+        //While someone expects a delivery, the first tap only warns
+        if (deliveriesExpected.length && !gateArmed) {
+            armGate($(this));
+            return;
+        }
+        disarmGate();
 
         //Disable the button for 2 seconds to allow for our relay
         $(e.currentTarget).prop("disabled", true);
@@ -50,6 +58,67 @@ $(document).ready(function() {
             $('#gate' + gateElement + '-buttonText').fadeIn();
         }
 
+    });
+
+    // ==========================================
+    // Deliveries (ticked on the house control panel)
+    // ==========================================
+
+    var deliveriesExpected = [];
+    var gateArmed = null;
+    var gateArmedText = 'Tap again';
+
+    function loadDeliveries() {
+        $.ajax({
+            url: '/deliveries.php',
+            dataType: 'json',
+            cache: false,
+            timeout: 8000,
+            success: function(response) {
+                deliveriesExpected = response.expected || [];
+                showDeliveries();
+            },
+            error: function() {
+                //Panel down: show nothing, the gate works as before
+                deliveriesExpected = [];
+                showDeliveries();
+            }
+        });
+    }
+
+    function showDeliveries() {
+        var $list = $('#deliveriesList').empty();
+        $.each(deliveriesExpected, function(i, person) {
+            var $li = $('<li>').append($('<b>').text(person.name));
+            if (person.note) {
+                $li.append(document.createTextNode(' \u2013 ' + person.note));
+            }
+            $list.append($li);
+        });
+        $('#deliveries').prop('hidden', !deliveriesExpected.length);
+    }
+
+    function armGate($button) {
+        gateArmed = setTimeout(disarmGate, 4000);
+        $button.addClass('armed');
+        $('#gate1-buttonText').text(gateArmedText);
+        $('#deliveries').addClass('armed');
+    }
+
+    function disarmGate() {
+        clearTimeout(gateArmed);
+        gateArmed = null;
+        $('div.activation-button button').removeClass('armed');
+        $('#gate1-buttonText').text('Activate Gate');
+        $('#deliveries').removeClass('armed');
+    }
+
+    loadDeliveries();
+    setInterval(function() {
+        if (!document.hidden) loadDeliveries();
+    }, 30000);
+    document.addEventListener('visibilitychange', function() {
+        if (!document.hidden) loadDeliveries();
     });
 
     // ==========================================
